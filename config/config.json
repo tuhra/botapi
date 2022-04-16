@@ -1,0 +1,22 @@
+{
+    "development": {
+        "username": "root",
+        "password": "admin123",
+        "database": "botdb",
+        "host": "172.17.0.4",
+        "dialect": "mysql"
+    },
+    "test": {
+        "username": "root",
+        "password": "admin123",
+        "database": "botdb",
+        "host": "172.17.0.4",
+        "dialect": "mysql"
+    },
+    "production": {
+        "username": "root",
+        "password": "admin123",
+        "database": "botdb",
+        "host": "172.17.0.4"
+    }
+}

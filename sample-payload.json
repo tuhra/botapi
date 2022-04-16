@@ -1,0 +1,84 @@
+// TEXT WITH BUTTONS PAYLOAD
+
+{
+	"block_id": 1,
+	"payload_type": "TEXT",
+	"body": [
+		{
+			"title": "This is Button Title",
+			"buttons": [
+			  	{
+			    	"type": "web_url",
+			    	"url": "https://petersapparel.parseapp.com",
+			    	"title": "Show Website"
+			  },
+			  {
+			    	"type": "postback",
+			    	"title": "Start Chatting",
+			    	"payload": "2"
+			  }
+			]
+		}
+	]
+}
+
+// TEXT WITHOUT BUTTONS PAYLOAD
+
+{
+	"block_id": 1,
+	"payload_type": "TEXT",
+	"body": [
+		{
+			"title": "This is Button Title"
+		}
+	]
+}
+
+// GALLERY WITH BUTTONS PAYLOAD
+
+{
+	"block_id": 1,
+	"payload_type": "GALLERY",
+	"body": [
+		{
+		    "title": "Welcome to Peter's Hats",
+		    "imageUrl": "https://petersfancybrownhats.com/company_image.png",
+		    "subtitle": "We've got the right hat for everyone.",
+		    "defaultAction": {
+		    	"type": "web_url",
+		    	"url": "https://peterssendreceiveapp.ngrok.io/view?item=103",
+		    	"messengerExtensions": true,
+		    	"webviewHeightRatio": "tall",
+		    	"fallbackUrl": "https://peterssendreceiveapp.ngrok.io/"
+		    },
+		    "buttons": [
+			    {
+			        "type": "postback",
+			        "title": "Start Chatting",
+			        "payload": "2"
+			    }
+		    ]
+		}
+	]
+}
+
+// GALLERY WITHOUT BUTTONS PAYLOAD
+
+{
+	"block_id": 2,
+	"payload_type": "GALLERY",
+	"body": [
+		{
+		    "title": "Welcome to Peter's Hats",
+		    "imageUrl": "https://petersfancybrownhats.com/company_image.png",
+		    "subtitle": "We've got the right hat for everyone.",
+		    "defaultAction": {
+		    	"type": "web_url",
+		    	"url": "https://peterssendreceiveapp.ngrok.io/view?item=103",
+		    	"messengerExtensions": true,
+		    	"webviewHeightRatio": "tall",
+		    	"fallbackUrl": "https://peterssendreceiveapp.ngrok.io/"
+		    }
+		}
+	]
+}
