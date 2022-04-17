@@ -4,10 +4,10 @@ const { body } = require('express-validator');
 
 const router = express.Router()
 
-router.get('/index/:page_id', blockController.index)
+router.get('/index/:project_id', blockController.index)
 router.post('/create', 
 	body('name').notEmpty(), 
-	body('page_id').notEmpty(),
+	body('project_id').notEmpty(),
 	blockController.create)
 router.get('/show/:id', blockController.show)
 router.put('/update', 

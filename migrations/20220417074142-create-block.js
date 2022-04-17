@@ -1,21 +1,18 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('payloads', {
+    await queryInterface.createTable('blocks', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      block_id: {
+      project_id: {
         type: Sequelize.INTEGER
       },
-      payload_type: {
+      name: {
         type: Sequelize.STRING
-      },
-      body: {
-        type: Sequelize.TEXT('long')
       },
       createdAt: {
         allowNull: false,
@@ -25,9 +22,20 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
+    .then(() => queryInterface.addConstraint('blocks', {
+      type: 'FOREIGN KEY',
+      name: 'FK_project_id_projects',
+      fields: ['project_id'], 
+      references: {
+        table: 'projects',
+        field: 'id',
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+    }))
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('payloads');
+    await queryInterface.dropTable('blocks');
   }
 };

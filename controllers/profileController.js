@@ -1,6 +1,6 @@
-const FbPage = require('../models').fbpages;
-const Profile = require('../models').profiles;
-const Block = require('../models').blocks;
+const FbPage = require('../models').fbpage;
+const Profile = require('../models').profile;
+const Block = require('../models').block;
 const { validationResult } = require('express-validator');
 
 // access config var
@@ -21,10 +21,10 @@ const profileController = {
 	    if("persistentMenu" in req.body) {
 	    	payload.profile.persistentMenu = req.body.persistentMenu
 	    }
-	    const profile = await Profile.findOne({where:{ page_id:req.body.page_id } });
+	    const profile = await Profile.findOne({where:{ project_id:req.body.project_id } });
 	    if(profile !== null) {
 	    	Profile.update({ 
-	    		page_id: req.body.page_id, profile: JSON.stringify(payload)},{ where: { page_id: req.body.page_id } 
+	    		project_id: req.body.project_id, profile: JSON.stringify(payload)},{ where: { project_id: req.body.project_id } 
 	    	}).then(function(data) {
 	    		return res.status(200).json({ success: true, data: 'successfully updated Messenger Profile'})
 	    	}).catch(function(error) {
@@ -32,30 +32,30 @@ const profileController = {
 	    	})
 	    } else {
 	    	await Profile.create({
-	    		page_id: req.body.page_id,
+	    		project_id: req.body.project_id,
 	    		profile: JSON.stringify(payload)
 	    	})
 	    	await Block.bulkCreate([
 		    	{
 		    		name: "GET_STARTED",
-		    		page_id: req.body.page_id
+		    		project_id: req.body.project_id
 		    	},	
 		    	{
 		    		name: "DEFAULT",
-		    		page_id: req.body.page_id
+		    		project_id: req.body.project_id
 		    	}
 	    	]);
 	    	return res.status(200).json({ success: true, message: 'successfully created Messenger Profile'})
 	    }
 	},
-
 	get: async (req, res, next) => {
-		const profile = await Profile.findOne({where:{ page_id:req.params.page_id } });
+		const profile = await Profile.findOne({where:{ project_id:req.params.project_id } });
 		if(profile === null) {
 			return res.status(200).json({success : false, message: "Messenger Page profile not found"})	
 		}
 		return res.status(200).json({success : false, data: profile})
 	}
+	
 }
 
 module.exports = profileController

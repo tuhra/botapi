@@ -2,10 +2,14 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const { bottender } = require('bottender');
 
+const userRoute = require("./routes/userroute");
 const fbPageRoute = require("./routes/fbpageroute");
-const profileRoute = require("./routes/profileroute");
+const projectRoute = require("./routes/projectroute");
 const blockRoute = require("./routes/blockroute");
+const profileRoute = require("./routes/profileroute");
 const payloadRoute = require("./routes/payloadroute");
+
+const AuthMiddleware = require("./middlewares/authmiddleware");
 
 const app = bottender({
   dev: process.env.NODE_ENV !== 'production',
@@ -28,10 +32,12 @@ app.prepare().then(() => {
   server.use(bodyParser.json({ verify }));
   server.use(bodyParser.urlencoded({ extended: false, verify }));
 
-  server.use("/api/fbpages", fbPageRoute);
-  server.use("/api/profiles", profileRoute);
-  server.use("/api/blocks", blockRoute);
-  server.use("/api/payloads", payloadRoute);
+  server.use("/api/user", userRoute);
+  server.use("/api/fbpage", AuthMiddleware, fbPageRoute);
+  server.use("/api/project", AuthMiddleware, projectRoute);
+  server.use("/api/block", AuthMiddleware, blockRoute);
+  server.use("/api/profile", AuthMiddleware, profileRoute);
+  server.use("/api/payload", payloadRoute);
 
   // server.get('/api', (req, res) => {
   //   res.json({ ok: true });

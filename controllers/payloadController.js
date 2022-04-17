@@ -1,4 +1,4 @@
-const Payload = require('../models').payloads;
+const Payload = require('../models').payload;
 const { validationResult } = require('express-validator');
 
 // access config var

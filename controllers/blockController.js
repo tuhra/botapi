@@ -1,12 +1,9 @@
-const Block = require('../models').blocks;
+const Block = require('../models').block;
 const { validationResult } = require('express-validator');
-
-// access config var
-process.env.TOKEN_SECRET;
 
 const payloadController = {
 	index: async (req, res, next) => {
-		const blocks = await Block.findAll({where: {page_id: req.params.page_id}});
+		const blocks = await Block.findAll({where: {project_id: req.params.project_id}});
 		res.status(200).json(blocks);
 	},
 	create: async (req, res, next) => {
@@ -16,7 +13,7 @@ const payloadController = {
 	    }
 	    Block.create({
 	    	name: req.body.name,
-	    	page_id: req.body.page_id
+	    	project_id: req.body.project_id
 	    })
 
 	    res.status(200).json({success: true, data: 'Successfully created block'});
