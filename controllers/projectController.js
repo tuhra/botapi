@@ -3,7 +3,7 @@ const { validationResult } = require('express-validator');
 
 const projectController = {
 	index: async (req, res, next) => {
-		const projects = await Project.findAll();
+		const projects = await Project.findAll({ where: { page_id: req.params.page_id } });
 		res.status(200).json(projects);
 	},
 	create: async (req, res, next) => {
@@ -15,7 +15,6 @@ const projectController = {
 	    	name: req.body.name,
 	    	page_id: req.body.page_id
 	    })
-
 	    res.status(200).json({success: true, data: 'Successfully created project'});
 	},
 	show: async (req, res, next) => {

@@ -1,11 +1,14 @@
 const Page = require('../models').page;
+const User = require('../models').user;
 const { validationResult } = require('express-validator');
 
 const fbPageController = {
-	// Get All Page List
 	index: async (req, res, next) => {
-		const pages = await Page.findAll({ where : {user_id: req.headers.authUser.user_id} });
-		res.status(200).json(pages);
+		var user_id = req.headers.authUser.user_id;
+		const user = await User.findByPk(user_id, {
+			include: Page
+		});
+		return res.status(200).json(user);
 	},
 	create: async (req, res, next) => {
 		const errors = validationResult(req);
@@ -26,7 +29,8 @@ const fbPageController = {
 	    })
 	},
 	show: async (req, res, next) => {
-		const page = await Page.findOne({where:{ id:req.params.id } });
+		var user_id = req.headers.authUser.user_id;
+		const page = await Page.findOne({ where: {id: req.params.id, user_id: user_id} });
 		if(page === null) {
 			return res.status(200).json({ success: true, data: 'Page Not Found'})
 		}

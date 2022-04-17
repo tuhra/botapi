@@ -4,7 +4,7 @@ const { body } = require('express-validator');
 
 const router = express.Router()
 
-router.get('/index', projectController.index)
+router.get('/index/:page_id', projectController.index)
 router.post('/create', 
 	body('name').notEmpty(), 
 	body('page_id').notEmpty(),
