@@ -11,6 +11,9 @@ module.exports = {
       project_id: {
         type: Sequelize.INTEGER
       },
+      user_id: {
+        type: Sequelize.INTEGER
+      },
       profile: {
         type: Sequelize.TEXT
       },
@@ -29,6 +32,17 @@ module.exports = {
       fields: ['project_id'], 
       references: {
         table: 'projects',
+        field: 'id',
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+    }))
+    .then(() => queryInterface.addConstraint('profiles', {
+      type: 'FOREIGN KEY',
+      name: 'FK_profiles_user_id_users',
+      fields: ['user_id'], 
+      references: {
+        table: 'users',
         field: 'id',
       },
       onDelete: 'cascade',

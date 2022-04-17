@@ -24,7 +24,10 @@ const profileController = {
 	    const profile = await Profile.findOne({where:{ project_id:req.body.project_id } });
 	    if(profile !== null) {
 	    	Profile.update({ 
-	    		project_id: req.body.project_id, profile: JSON.stringify(payload)},{ where: { project_id: req.body.project_id } 
+	    		project_id: req.body.project_id, 
+	    		user_id: req.headers.authUser.user_id,
+	    		profile: JSON.stringify(payload) 
+	    		},{ where: { project_id: req.body.project_id } 
 	    	}).then(function(data) {
 	    		return res.status(200).json({ success: true, data: 'successfully updated Messenger Profile'})
 	    	}).catch(function(error) {
@@ -33,23 +36,26 @@ const profileController = {
 	    } else {
 	    	await Profile.create({
 	    		project_id: req.body.project_id,
+	    		user_id: req.headers.authUser.user_id,
 	    		profile: JSON.stringify(payload)
 	    	})
 	    	await Block.bulkCreate([
 		    	{
 		    		name: "GET_STARTED",
-		    		project_id: req.body.project_id
+		    		project_id: req.body.project_id,
+		    		user_id: req.headers.authUser.user_id
 		    	},	
 		    	{
 		    		name: "DEFAULT",
-		    		project_id: req.body.project_id
+		    		project_id: req.body.project_id,
+		    		user_id: req.headers.authUser.user_id
 		    	}
 	    	]);
 	    	return res.status(200).json({ success: true, message: 'successfully created Messenger Profile'})
 	    }
 	},
 	get: async (req, res, next) => {
-		const profile = await Profile.findOne({where:{ project_id:req.params.project_id } });
+		const profile = await Profile.findOne({where:{ id:req.params.project_id, user_id: req.headers.authUser.user_id } });
 		if(profile === null) {
 			return res.status(200).json({success : false, message: "Messenger Page profile not found"})	
 		}

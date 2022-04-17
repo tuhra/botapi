@@ -37,7 +37,7 @@ app.prepare().then(() => {
   server.use("/api/project", AuthMiddleware, projectRoute);
   server.use("/api/block", AuthMiddleware, blockRoute);
   server.use("/api/profile", AuthMiddleware, profileRoute);
-  server.use("/api/payload", payloadRoute);
+  server.use("/api/payload", AuthMiddleware, payloadRoute);
 
   // server.get('/api', (req, res) => {
   //   res.json({ ok: true });

@@ -3,7 +3,7 @@ const { validationResult } = require('express-validator');
 
 const projectController = {
 	index: async (req, res, next) => {
-		const projects = await Project.findAll({ where: { page_id: req.params.page_id } });
+		const projects = await Project.findAll({ where: { page_id: req.params.page_id, user_id: req.headers.authUser.user_id} });
 		res.status(200).json(projects);
 	},
 	create: async (req, res, next) => {
@@ -13,7 +13,8 @@ const projectController = {
 	    }
 	    Project.create({
 	    	name: req.body.name,
-	    	page_id: req.body.page_id
+	    	page_id: req.body.page_id,
+	    	user_id: req.headers.authUser.user_id,
 	    })
 	    res.status(200).json({success: true, data: 'Successfully created project'});
 	},
@@ -34,7 +35,7 @@ const projectController = {
 	 		return res.status(200).json({ success: false, data: 'project not found'})
 	 	}
 	 	Project.update({
-	 		name: req.body.name } ,{ where: { id: req.body.id } 
+	 		name: req.body.name, user_id: req.headers.authUser.user_id } ,{ where: { id: req.body.id } 
 	 	})
 	 	return res.status(200).json({success: true, data: 'Successfully updated project'});
 	},

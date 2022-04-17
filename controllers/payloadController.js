@@ -18,6 +18,7 @@ const payloadController = {
 
 	    Payload.create({
 	    	block_id: req.body.block_id,
+	    	user_id: req.headers.authUser.user_id,
 	    	payload_type: req.body.payload_type,
 	    	body: JSON.stringify(req.body.body)
 	    })

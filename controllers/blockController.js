@@ -3,7 +3,7 @@ const { validationResult } = require('express-validator');
 
 const payloadController = {
 	index: async (req, res, next) => {
-		const blocks = await Block.findAll({where: {project_id: req.params.project_id}});
+		const blocks = await Block.findAll({where: {project_id: req.params.project_id, user_id: req.headers.authUser.user_id }});
 		res.status(200).json(blocks);
 	},
 	create: async (req, res, next) => {
@@ -13,7 +13,8 @@ const payloadController = {
 	    }
 	    Block.create({
 	    	name: req.body.name,
-	    	project_id: req.body.project_id
+	    	project_id: req.body.project_id,
+	    	user_id: req.headers.authUser.user_id,
 	    })
 
 	    res.status(200).json({success: true, data: 'Successfully created block'});
@@ -35,7 +36,7 @@ const payloadController = {
 	 		return res.status(200).json({ success: false, data: 'Block not found'})
 	 	}
 	 	Block.update({
-	 		name: req.body.name } ,{ where: { id: req.body.id } 
+	 		name: req.body.name, user_id: req.headers.authUser.user_id } ,{ where: { id: req.body.id } 
 	 	})
 	 	return res.status(200).json({success: true, data: 'Successfully updated block'});
 	},

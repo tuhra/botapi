@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   project.init({
     page_id: DataTypes.INTEGER,
+    user_id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     is_used: DataTypes.BOOLEAN
   }, {

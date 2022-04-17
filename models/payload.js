@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   payload.init({
     block_id: DataTypes.INTEGER,
+    user_id: DataTypes.INTEGER,
     payload_type: DataTypes.STRING,
     body: DataTypes.TEXT
   }, {
