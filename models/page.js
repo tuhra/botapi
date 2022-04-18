@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       page.belongsTo(models.user, {
         foreignKey: 'user_id',
       });
+      page.hasOne(models.project, {
+        foreignKey: 'page_id',
+      });
     }
   };
   page.init({

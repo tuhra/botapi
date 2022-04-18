@@ -26,6 +26,7 @@ const profileController = {
 	    	Profile.update({ 
 	    		project_id: req.body.project_id, 
 	    		user_id: req.headers.authUser.user_id,
+	    		page_id: req.body.page_id,
 	    		profile: JSON.stringify(payload) 
 	    		},{ where: { project_id: req.body.project_id } 
 	    	}).then(function(data) {
@@ -37,18 +38,21 @@ const profileController = {
 	    	await Profile.create({
 	    		project_id: req.body.project_id,
 	    		user_id: req.headers.authUser.user_id,
-	    		profile: JSON.stringify(payload)
+	    		page_id: req.body.page_id,
+	    		profile: JSON.stringify(payload),
 	    	})
 	    	await Block.bulkCreate([
 		    	{
 		    		name: "GET_STARTED",
 		    		project_id: req.body.project_id,
-		    		user_id: req.headers.authUser.user_id
+		    		user_id: req.headers.authUser.user_id,
+		    		page_id: req.body.page_id,
 		    	},	
 		    	{
 		    		name: "DEFAULT",
 		    		project_id: req.body.project_id,
-		    		user_id: req.headers.authUser.user_id
+		    		user_id: req.headers.authUser.user_id,
+		    		page_id: req.body.page_id,
 		    	}
 	    	]);
 	    	return res.status(200).json({ success: true, message: 'successfully created Messenger Profile'})

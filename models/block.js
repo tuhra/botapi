@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   block.init({
     project_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER,
+    page_id: DataTypes.INTEGER,
     name: DataTypes.STRING
   }, {
     sequelize,

@@ -15,6 +15,7 @@ const payloadController = {
 	    	name: req.body.name,
 	    	project_id: req.body.project_id,
 	    	user_id: req.headers.authUser.user_id,
+	    	page_id: req.body.fb_page_id
 	    })
 
 	    res.status(200).json({success: true, data: 'Successfully created block'});
@@ -36,7 +37,10 @@ const payloadController = {
 	 		return res.status(200).json({ success: false, data: 'Block not found'})
 	 	}
 	 	Block.update({
-	 		name: req.body.name, user_id: req.headers.authUser.user_id } ,{ where: { id: req.body.id } 
+	 		name: req.body.name, 
+	 		user_id: req.headers.authUser.user_id,
+	 		page_id: req.body.fb_page_id, 
+	 	} , { where: { id: req.body.id } 
 	 	})
 	 	return res.status(200).json({success: true, data: 'Successfully updated block'});
 	},

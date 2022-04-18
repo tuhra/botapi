@@ -14,6 +14,9 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER
       },
+      page_id: {
+        type: Sequelize.STRING
+      },
       name: {
         type: Sequelize.STRING
       },

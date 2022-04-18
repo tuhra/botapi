@@ -5,8 +5,8 @@
 
 
 
-const Block = require('./models').blocks;
-const Payload = require('./models').payloads;
+const Block = require('./models').block;
+const Payload = require('./models').payload;
 const { QueryTypes } = require('sequelize');
 
 module.exports = async function App(context) {
@@ -42,14 +42,13 @@ module.exports = async function App(context) {
     if (context.event.isPayload) {
         const page_id = context.event.pageId;
         if(context.event.payload === "GET_STARTED") {
-            var block = await Block.findOne({ where : {page_id: page_id, name: "GET_STARTED"} });
+            var block = await Block.findOne({ where : { name: "GET_STARTED"} });
             var payloads = await Payload.findAll({ where: {block_id: block.id } });
             for(payload of payloads) {
                 HandlePayload(context, payload.payload_type, payload.body)
             }
         } else {
-            var payloads = await Payload.findAll({ where: {block_id: context.event.payload } });
-            console.log(payloads);
+            var payloads = await Payload.findAll({ where: { block_id: context.event.payload } });
             for(payload of payloads) {
                 HandlePayload(context, payload.payload_type, payload.body)
             }
@@ -57,16 +56,17 @@ module.exports = async function App(context) {
     }
 };
 
-async function HandlePayload(context, message_type, payload) {
+async function HandlePayload(context, payload_type, payload) {
     var body = JSON.parse(payload);
-    if(message_type === "GALLERY") {
+    if(payload_type === "GALLERY") {
         await context.sendGenericTemplate([
             body[0]
         ]);
     }
 
-    if(message_type === "TEXT") {
+    if(payload_type === "TEXT") {
         if("buttons" in body[0]) {
+            console.log(body[0].buttons);
             await context.sendButtonTemplate( body[0].title, body[0].buttons );
         } else {
             await context.sendText(body[0].title);
@@ -76,7 +76,7 @@ async function HandlePayload(context, message_type, payload) {
 
 async function HandleText(context) {
     const page_id = context.event.pageId;
-    var block = await Block.findOne({ where : {page_id: page_id, name: "DEFAULT"} });
+    var block = await Block.findOne({ where : { name: "DEFAULT"} });
     await context.sendText(`received the text: ${context.event.text}`);
     var payloads = await Payload.findAll({ where: {block_id: block.id } });
     for(payload of payloads) {

@@ -1,4 +1,5 @@
 const Project = require('../models').project;
+const Page = require('../models').page;
 const { validationResult } = require('express-validator');
 
 const projectController = {
@@ -19,7 +20,9 @@ const projectController = {
 	    res.status(200).json({success: true, data: 'Successfully created project'});
 	},
 	show: async (req, res, next) => {
-		var project = await Project.findByPk(req.params.id);
+		var project = await Project.findByPk(req.params.id, {
+			include: Page
+		});
 		if(project === null) {
 			return res.status(200).json({ success: false, data: 'project not found'})
 		}

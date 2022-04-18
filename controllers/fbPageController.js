@@ -1,5 +1,6 @@
 const Page = require('../models').page;
 const User = require('../models').user;
+const Project = require('../models').project;
 const { validationResult } = require('express-validator');
 
 const fbPageController = {
@@ -35,6 +36,26 @@ const fbPageController = {
 			return res.status(200).json({ success: true, data: 'Page Not Found'})
 		}
 		return res.status(200).json(page);
+	},
+	update: async (req, res, next) => {
+		const errors = validationResult(req);
+	    if (!errors.isEmpty()) {
+	      return res.status(200).json({ errors: errors.array() });
+	    }
+	    const page = await Page.findByPk(req.body.id);
+	    if(page === null) {
+	    	return res.status(200).json({ success: false, data: 'Page not found'})
+	    }
+	    await Page.update(req.body, { where: { id: req.body.id } })
+	    return res.status(200).json({ success: true, message: 'successfully updated fb page credentials' })
+	},
+	delete: async (req, res, next) => {
+		const page = await Page.findByPk(req.params.id);
+		if(page === null) {
+			return res.status(200).json({ success: false, data: 'Page not found'})
+		}
+		await Page.destroy({ where: {id: req.params.id} })
+		return res.status(200).json({ success: true, data: 'Successfully deleted page'})
 	}
 }
 
